@@ -11,7 +11,7 @@ class StringCalculator
       values = numbers.gsub("\n", delimiter)
     end
     
-    values = values.split(delimiter).map(&:to_i)
+    values = values.split(delimiter).map(&:to_i).reject { |n| n > 1000 }
      
     negatives = values.select { |n| n < 0 }
     unless negatives.empty?

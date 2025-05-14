@@ -45,5 +45,15 @@ RSpec.describe StringCalculator do
         calculator.add("1,-2,-4,3")
       }.to raise_error("negative numbers not allowed -2,-4")
     end
+
+    it 'ignores numbers greater than 1000' do
+      calculator = StringCalculator.new
+      expect(calculator.add("2,1001")).to eq(2)
+    end
+
+    it 'includes numbers up to and including 1000' do
+      calculator = StringCalculator.new
+      expect(calculator.add("2,1000")).to eq(1002)
+    end
   end
 end
