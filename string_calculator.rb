@@ -4,14 +4,17 @@ class StringCalculator
     
     delimiter = ","
     if numbers.start_with?("//")
-      parts = numbers.split("\n", 2)
-      delimiter = parts[0][2]
-      values = parts[1]
-    else
-      values = numbers.gsub("\n", delimiter)
+      header, numbers = numbers.split("\n", 2)
+      if header.start_with?("//[")
+	delimiter = header.match(%r{//\[(.+)\]})[1]
+      else
+	delimiter = header[2]
+      end
+    else      
+      numbers = numbers.gsub("\n", delimiter)
     end
     
-    values = values.split(delimiter).map(&:to_i).reject { |n| n > 1000 }
+    values = numbers.split(/#{Regexp.escape(delimiter)}/).map(&:to_i).reject { |n| n > 1000 }
      
     negatives = values.select { |n| n < 0 }
     unless negatives.empty?
